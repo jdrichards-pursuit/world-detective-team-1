@@ -8,7 +8,8 @@ CREATE TABLE users (
     id SERIAL PRIMARY KEY,
     uid VARCHAR(255),
     email VARCHAR(100) UNIQUE NOT NULL,
-    username VARCHAR(100) UNIQUE NOT NULL,
+    first_name VARCHAR(100),
+    last_name VARCHAR(100),
     dob DATE,
     photo VARCHAR(200),
     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
@@ -20,7 +21,7 @@ CREATE TABLE stats (
     games_played INTEGER NOT NULL,
     questions_correct INTEGER NOT NULL,
     questions_wrong INTEGER NOT NULL,
-    user_id INTEGER NOT NULL
+    user_id INTEGER NOT NULL REFERENCES users(id)
 );
 
 CREATE TABLE badges (
