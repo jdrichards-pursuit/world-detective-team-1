@@ -8,10 +8,14 @@
 
 \c global_agent
 
+INSERT INTO users(uid, first_name, last_name, email, dob, photo, created_at)
+VALUES
+('skZmowShBkPAbWHUYx6It5XdXg73', 'Brenda', 'Soto', 'brendapuello@yahoo.com', '1985-10-14', 'https://res.cloudinary.com/dnqfg86zq/image/upload/t_Fill300x300/v1719864208/vcphjm5eiprxr8hwqcvk.jpg', NOW());
+
 INSERT INTO stats(xp, games_played, questions_correct, questions_wrong, user_id)
 VALUES
-   (200, 3, 8, 4, 1),
-   (450, 5, 16, 4, 2);
+   (200, 3, 8, 4, 1);
+--    (450, 5, 16, 4, 2);
 
 INSERT INTO badges(name, image, description, xp_required)
 VALUES
@@ -31,10 +35,10 @@ VALUES
 
 INSERT INTO user_badges(badge_id, user_id)
 VALUES
-    (1, 1),
-    (1, 2);
+    (1, 1);
+    -- (1, 2);
 
 INSERT INTO visited_countries(countries_id, user_id)
 VALUES
-    (2, 1),
-    (5, 5);
+    (2, 1);
+    -- (5, 2);

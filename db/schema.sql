@@ -32,16 +32,16 @@ CREATE TABLE badges (
     xp_required INTEGER NOT NULL
 );
 
-CREATE TABLE user_badges (
-    id SERIAL PRIMARY KEY,
-    badge_id INTEGER NOT NULL REFERENCES badges(id),
-    user_id INTEGER NOT NULL REFERENCES users(id)
-);
-
 CREATE TABLE countries (
     id SERIAL PRIMARY KEY,
     image TEXT NOT NULL,
     name VARCHAR(30)
+);
+
+CREATE TABLE user_badges (
+    id SERIAL PRIMARY KEY,
+    badge_id INTEGER NOT NULL REFERENCES badges(id),
+    user_id INTEGER NOT NULL REFERENCES users(id)
 );
 
 CREATE TABLE visited_countries (
