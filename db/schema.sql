@@ -34,7 +34,7 @@ CREATE TABLE stats (
 
 CREATE TABLE countries (
     id SERIAL PRIMARY KEY,
-    image TEXT NOT NULL,
+    flag TEXT NOT NULL,
     name VARCHAR(30)
 );
 
