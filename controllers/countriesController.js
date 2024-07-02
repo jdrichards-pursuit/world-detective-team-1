@@ -14,8 +14,7 @@ countries.get('/', async (req,res) => {
     }
 });
 
-
-//CASE FILES INDEX http://localhost:3003/api/countries/1/case_files
+//INDEX CASE FILES http://localhost:3003/api/countries/1/case_files
 countries.get('/:countries_id/case_files', async (req,res) => {
     const { countries_id } = req.params
     const allCaseFilesByCountry = await getCaseFilesByCountry(countries_id);
