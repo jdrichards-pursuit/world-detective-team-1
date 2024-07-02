@@ -50,3 +50,29 @@ CREATE TABLE countries (
 --    user_id INTEGER NOT NULL REFERENCES users(id)
 -- );
 
+CREATE TABLE case_files (
+    id SERIAL PRIMARY KEY,
+    article_content VARCHAR(1500),
+    article_title VARCHAR(200),
+    countries_id INTEGER REFERENCES countries(id)
+);
+
+CREATE TABLE questions_younger (
+    id SERIAL PRIMARY KEY,
+    question VARCHAR(150),
+    correct_answer VARCHAR(100),
+    incorrect_answer1 VARCHAR(100),
+    incorrect_answer2 VARCHAR(100),
+    incorrect_answer3 VARCHAR(100),
+    case_files_id INTEGER REFERENCES case_files(id)
+);
+
+CREATE TABLE questions_older (
+    id SERIAL PRIMARY KEY,
+    question VARCHAR(150),
+    correct_answer VARCHAR(100),
+    incorrect_answer1 VARCHAR(100),
+    incorrect_answer2 VARCHAR(100),
+    incorrect_answer3 VARCHAR(100),
+    case_files_id INTEGER REFERENCES case_files(id)
+);
