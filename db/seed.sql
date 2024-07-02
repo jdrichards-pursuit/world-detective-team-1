@@ -58,7 +58,7 @@ VALUES
 INSERT INTO questions_older(question, correct_answer, incorrect_answer1, incorrect_answer2, incorrect_answer3, case_files_id)
 VALUES
     ('What recent event has complicated US efforts to improve relations with Russia?', 'An eruption of fighting in eastern Ukraine', 'A peace treaty signed between Ukraine and Russia', 'The discovery of oil in the Black Sea', 'The discovery of oil in the Black Sea', 1);
-    ('What are "gray zone" territories in this conflict?', 'Areas between front lines that were previously buffer zones', 'Regions with unclear political allegiance', 'Zones where no fighting is allowed', 'Territories controlled by UN peacekeepers'),
+    ('What are "gray zone" territories in this conflict?', 'Areas between front lines that were previously buffer zones', 'Regions with unclear political allegiance', 'Zones where no fighting is allowed', 'Territories controlled by UN peacekeepers', 1),
     ('How have Ukrainian authorities responded to the humanitarian crisis in Avdiivka?', 'Setting up heated shelters and preparing for evacuation', 'Closing all borders and declaring martial law', 'Requesting direct military intervention from NATO', 'Surrendering the town to separatist forces', 1),
-    ('What concern do Ukrainian officials have about US-Russia relations?', 'Western pressure on Russia to withdraw from eastern Ukraine might ease', 'The US might join Russia in supporting the separatists', 'Russia might increase its military presence in Ukraine', 'The US might stop all diplomatic relations with Ukraine');
+    ('What concern do Ukrainian officials have about US-Russia relations?', 'Western pressure on Russia to withdraw from eastern Ukraine might ease', 'The US might join Russia in supporting the separatists', 'Russia might increase its military presence in Ukraine', 'The US might stop all diplomatic relations with Ukraine', 1);
 

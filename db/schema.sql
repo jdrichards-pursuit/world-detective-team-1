@@ -52,8 +52,8 @@ CREATE TABLE countries (
 
 CREATE TABLE case_files (
     id SERIAL PRIMARY KEY,
-    article_content VARCHAR(1500),
-    article_title VARCHAR(200),
+    article_content TEXT,
+    article_title TEXT,
     countries_id INTEGER REFERENCES countries(id)
 );
 
