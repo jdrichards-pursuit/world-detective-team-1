@@ -24,13 +24,13 @@ CREATE TABLE stats (
     user_id INTEGER NOT NULL REFERENCES users(id)
 );
 
-CREATE TABLE badges (
-    id SERIAL PRIMARY KEY,
-    name VARCHAR(100),
-    image TEXT NOT NULL,
-    description VARCHAR(200),
-    xp_required INTEGER NOT NULL
-);
+-- CREATE TABLE badges (
+--     id SERIAL PRIMARY KEY,
+--     name VARCHAR(100),
+--     image TEXT NOT NULL,
+--     description VARCHAR(200),
+--     xp_required INTEGER NOT NULL
+-- );
 
 CREATE TABLE countries (
     id SERIAL PRIMARY KEY,
@@ -38,15 +38,15 @@ CREATE TABLE countries (
     name VARCHAR(30)
 );
 
-CREATE TABLE user_badges (
-    id SERIAL PRIMARY KEY,
-    badge_id INTEGER NOT NULL REFERENCES badges(id),
-    user_id INTEGER NOT NULL REFERENCES users(id)
-);
+-- CREATE TABLE user_badges (
+--     id SERIAL PRIMARY KEY,
+--     badge_id INTEGER NOT NULL REFERENCES badges(id),
+--     user_id INTEGER NOT NULL REFERENCES users(id)
+-- );
 
-CREATE TABLE visited_countries (
-   id SERIAL PRIMARY KEY,
-   countries_id INTEGER NOT NULL REFERENCES countries(id),
-   user_id INTEGER NOT NULL REFERENCES users(id)
-);
+-- CREATE TABLE visited_countries (
+--    id SERIAL PRIMARY KEY,
+--    countries_id INTEGER NOT NULL REFERENCES countries(id),
+--    user_id INTEGER NOT NULL REFERENCES users(id)
+-- );
 
