@@ -34,7 +34,7 @@ CREATE TABLE stats (
 
 CREATE TABLE countries (
     id SERIAL PRIMARY KEY,
-    image TEXT NOT NULL,
+    flag TEXT NOT NULL,
     name VARCHAR(30)
 );
 
@@ -57,7 +57,7 @@ CREATE TABLE case_files (
     countries_id INTEGER REFERENCES countries(id)
 );
 
-CREATE TABLE questions (
+CREATE TABLE questions_younger (
     id SERIAL PRIMARY KEY,
     question VARCHAR(150),
     correct_answer VARCHAR(100),
@@ -65,5 +65,14 @@ CREATE TABLE questions (
     incorrect_answer2 VARCHAR(100),
     incorrect_answer3 VARCHAR(100),
     case_files_id INTEGER REFERENCES case_files(id)
-)
+);
 
+CREATE TABLE questions_older (
+    id SERIAL PRIMARY KEY,
+    question VARCHAR(150),
+    correct_answer VARCHAR(100),
+    incorrect_answer1 VARCHAR(100),
+    incorrect_answer2 VARCHAR(100),
+    incorrect_answer3 VARCHAR(100),
+    case_files_id INTEGER REFERENCES case_files(id)
+);

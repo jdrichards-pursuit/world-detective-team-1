@@ -3,6 +3,7 @@ const cors = require('cors')
 const express = require('express')
 
 const authController = require('./controllers/authController')
+const countriesController = require('./controllers/countriesController')
 
 // CONFIGURATION
 const app = express()
@@ -18,10 +19,11 @@ app.use((req, _res, next) => {
 app.use(express.json())
 
 app.use('/api/auth', authController)
+app.use('/api/countries', countriesController)
 
 // ROUTES
 app.get('/', (_req, res) => {
-  res.send('Welcome to Firebase Backend Server')
+  res.send('Welcome to Global Agent Backend Server')
 })
 
 // 404 PAGE

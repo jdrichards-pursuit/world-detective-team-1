@@ -25,13 +25,13 @@ VALUES
 --     ('Chief Detective', 'https://cdn.imgbin.com/24/13/24/imgbin-police-officer-badge-special-police-police-academy-yellow-shield-ryy4BGDZBi2xePLGFgqHHAiP4.jpg', 'Chief Detective badge', 2800),
 --     ('Master Sleuth', 'https://cdn11.bigcommerce.com/s-yumff8kfnk/images/stencil/1280x1280/products/8454/14697/4623WCG-front__03109.1680643153.jpg?c=1', 'Master Sleuth badge', 5000);
 
-INSERT INTO countries(name, image)
+INSERT INTO countries(name, flag)
 VALUES
-    ('Bolivia', '🇧🇴'),
-    ('China', '🇨🇳'),
-    ('Dominican Republic', '🇩🇴'),
-    ('Portugal', '🇵🇹'),
-    ('Trinidad and Tobago', '🇹🇹');
+    -- ('Bolivia', '🇧🇴'),
+    ('China', 'https://res.cloudinary.com/dhexjuuzd/image/upload/v1719945542/download_3_xdtw9a.png'),
+    ('Dominican Republic', 'https://res.cloudinary.com/dhexjuuzd/image/upload/v1719945529/download_1_ey5dxy.png'),
+    ('Portugal', 'https://res.cloudinary.com/dhexjuuzd/image/upload/v1719945536/download_2_wosmqd.png'),
+    ('Trinidad and Tobago', 'https://res.cloudinary.com/dhexjuuzd/image/upload/v1719945522/download_w0sugs.png');
 
 -- INSERT INTO user_badges(badge_id, user_id)
 -- VALUES
@@ -60,4 +60,5 @@ VALUES
     ('What recent event has complicated US efforts to improve relations with Russia?', 'An eruption of fighting in eastern Ukraine', 'A peace treaty signed between Ukraine and Russia', 'The discovery of oil in the Black Sea', 'The discovery of oil in the Black Sea', 1);
     ('What are "gray zone" territories in this conflict?', 'Areas between front lines that were previously buffer zones', 'Regions with unclear political allegiance', 'Zones where no fighting is allowed', 'Territories controlled by UN peacekeepers'),
     ('How have Ukrainian authorities responded to the humanitarian crisis in Avdiivka?', 'Setting up heated shelters and preparing for evacuation', 'Closing all borders and declaring martial law', 'Requesting direct military intervention from NATO', 'Surrendering the town to separatist forces', 1),
-    ('What concern do Ukrainian officials have about US-Russia relations?', 'Western pressure on Russia to withdraw from eastern Ukraine might ease', 'The US might join Russia in supporting the separatists', 'Russia might increase its military presence in Ukraine', 'The US might stop all diplomatic relations with Ukraine')
+    ('What concern do Ukrainian officials have about US-Russia relations?', 'Western pressure on Russia to withdraw from eastern Ukraine might ease', 'The US might join Russia in supporting the separatists', 'Russia might increase its military presence in Ukraine', 'The US might stop all diplomatic relations with Ukraine');
+
