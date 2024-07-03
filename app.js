@@ -6,6 +6,7 @@ const authController = require("./controllers/authController");
 const countriesController = require("./controllers/countriesController");
 const youngerQuestionsController = require("./controllers/youngerQuestionsController");
 const questionsOlderController = require('./controllers/questionsOlderController')
+const statsController = require("./controllers/statsController");
 
 // CONFIGURATION
 const app = express();
@@ -24,6 +25,7 @@ app.use("/api/auth", authController);
 app.use("/api/countries", countriesController);
 app.use("/api/younger_questions", youngerQuestionsController);
 app.use('/api/older_questions/', questionsOlderController)
+app.use("/api/stats", statsController);
 
 // ROUTES
 app.get("/", (_req, res) => {
