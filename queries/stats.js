@@ -11,7 +11,7 @@ const getStatsByUserId = async (user_id) => {
 };
 
   // CREATE
-const createUserStats = async () => {
+const createUserStats = async (user_id) => {
     try {
       const newUserStats = await db.one(
         `INSERT INTO stats(user_id) VALUES($1) RETURNING *`, user_id

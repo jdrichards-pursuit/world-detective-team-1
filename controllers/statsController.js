@@ -14,16 +14,15 @@ stats.get('/:user_id', async (req,res) => {
 });
 
 
-// POST http://localhost:3003/api/stats/1
-stats.post("/:user_id" ,async (req, res) => {
-  const { user_id } = req.params
-  const newUserStats = await createUserStats(user_id)
-  if (newUserStats.id) {
-    res.status(200).json(newUserStats);
-  } else {
-    res.status(404).json({ error: "User stats not created" });
-  }
-});
+// POST http://localhost:3003/api/stats
+// stats.post("/:user_id" ,async (req, res) => {
+//   const newUserStats = await createUserStats(user_id)
+//   if (newUserStats.id) {
+//     res.status(200).json(newUserStats);
+//   } else {
+//     res.status(404).json({ error: "User stats not created" });
+//   }
+// });
 
 // UPDATE http://localhost:3003/api/stats/1
 stats.put("/:user_id", async (req, res) => {

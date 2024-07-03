@@ -6,10 +6,7 @@ const { createUserStats  } = require('../queries/stats.js')
 
 // auth.post('/register', async (req, res) => {
 //   const newUser = await createNewUser(req.body)
-//   const newUserStats = await createUserStats(newUser.id)
-
 //   if (newUser) {
-
 //     res.status(201).json(newUser, newUserStats)
 //   } else {
 //     res.status(500).json({ error: 'Error creating user' })
