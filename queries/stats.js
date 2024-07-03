@@ -11,16 +11,16 @@ const getStatsByUserId = async (user_id) => {
 };
 
 // UPDATE 
-const updateUserStats = async (user_id, stats) => {
+const updateUserStats = async (stats) => {
     try {
       const updatedUserStats = await db.one(
-        "UPDATE stats SET xp=$1, games_played=$2, questions_correct=$3, questions_wrong=$4 WHERE user_id=$5 RETURNING *",
+        `UPDATE stats SET xp=$1, games_played=$2, questions_correct=$3, questions_wrong=$4 WHERE user_id=$5 RETURNING *`,
         [
           stats.xp,
           stats.games_played,
           stats.questions_correct,
           stats.questions_wrong,
-          user_id
+          stats.user_id
         ]
       );
       return updatedUserStats;
@@ -30,17 +30,10 @@ const updateUserStats = async (user_id, stats) => {
   };
 
   // CREATE
-const createUserStats = async (user_id, stats) => {
+const createUserStats = async (user_id) => {
     try {
       const newUserStats = await db.one(
-        "INSERT INTO stats(xp, games_played, questions_correct, questions_wrong, user_id) VALUES($1, $2, $3, $4, $5) RETURNING *",
-        [
-          stats.xp,
-          stats.games_played,
-          stats.questions_correct,
-          stats.questions_wrong,
-          stats.user_id
-        ]
+        `INSERT INTO stats(user_id) VALUES($1) RETURNING *`, user_id
       );
       return newUserStats;
     } catch (error) {

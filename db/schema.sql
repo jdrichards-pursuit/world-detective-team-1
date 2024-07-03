@@ -17,11 +17,11 @@ CREATE TABLE users (
 
 CREATE TABLE stats (
     id SERIAL PRIMARY KEY,
-    xp INTEGER NOT NULL,
-    games_played INTEGER NOT NULL,
-    questions_correct INTEGER NOT NULL,
-    questions_wrong INTEGER NOT NULL,
-    user_id INTEGER NOT NULL REFERENCES users(id)
+    xp INTEGER DEFAULT 0,
+    games_played INTEGER DEFAULT 0,
+    questions_correct INTEGER DEFAULT 0,
+    questions_wrong INTEGER DEFAULT 0,
+    user_id INTEGER REFERENCES users(id)
 );
 
 -- CREATE TABLE badges (

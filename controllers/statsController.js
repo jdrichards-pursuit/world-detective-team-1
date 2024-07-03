@@ -17,8 +17,7 @@ stats.get('/:user_id', async (req,res) => {
 // UPDATE http://localhost:3003/api/stats/1
 stats.put("/:user_id" ,async (req, res) => {
     const { user_id } = req.params
-    const stats = req.body
-    const updatedUserStats = await updateUserStats(user_id, stats);
+    const updatedUserStats = await updateUserStats({user_id, ...req.body});
     if (updatedUserStats.id) {
       res.status(200).json(updatedUserStats);
     } else {
