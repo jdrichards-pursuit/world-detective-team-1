@@ -1,7 +1,7 @@
 const db = require("../db/dbConfig");
 
 
-const getStatsByUserId= async (user_id) => {
+const getStatsByUserId = async (user_id) => {
     try {
         const statsByUserId  = await db.any(`SELECT * FROM stats WHERE stats.user_id = $1`, user_id);
         return statsByUserId
@@ -10,7 +10,48 @@ const getStatsByUserId= async (user_id) => {
     }
 };
 
+// UPDATE 
+const updateUserStats = async (user_id, stats) => {
+    try {
+      const updatedUserStats = await db.one(
+        "UPDATE stats SET xp=$1, games_played=$2, questions_correct=$3, questions_wrong=$4 WHERE user_id=$5 RETURNING *",
+        [
+          stats.xp,
+          stats.games_played,
+          stats.questions_correct,
+          stats.questions_wrong,
+          user_id
+        ]
+      );
+      return updatedUserStats;
+    } catch (error) {
+      return error;
+    }
+  };
+
+  // CREATE
+const createUserStats = async (user_id, stats) => {
+    try {
+      const newUserStats = await db.one(
+        "INSERT INTO stats(xp, games_played, questions_correct, questions_wrong, user_id) VALUES($1, $2, $3, $4, $5) RETURNING *",
+        [
+          stats.xp,
+          stats.games_played,
+          stats.questions_correct,
+          stats.questions_wrong,
+          stats.user_id
+        ]
+      );
+      return newUserStats;
+    } catch (error) {
+      return error;
+    }
+  };
+  
+
 
 module.exports = {
-    getStatsByUserId
+    getStatsByUserId,
+    updateUserStats, 
+    createUserStats
   };
