@@ -2,7 +2,7 @@ const express = require('express')
 const older_questions = express.Router()
 const {getAllOlderQuestionsAndAnswers} = require("../queries/questionsOlder")
 
-//QUESTIONS and ANSWERS http://localhost:3003/api/older_questions/1
+// QUESTIONS and ANSWERS http://localhost:3003/api/older_questions/1
 older_questions.get('/:case_files_id', async (req,res) => {
     const { case_files_id } = req.params
     const allQuestionsWithAnswers = await getAllOlderQuestionsAndAnswers(case_files_id);
