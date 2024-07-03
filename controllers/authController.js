@@ -2,16 +2,36 @@ const express = require('express')
 const auth = express.Router()
 const authMiddleware = require('../middlewares/authMiddleware')
 const { createNewUser, findUserByUID } = require('../queries/users.js')
+const { createUserStats  } = require('../queries/stats.js')
+
+// auth.post('/register', async (req, res) => {
+//   const newUser = await createNewUser(req.body)
+//   if (newUser) {
+//     res.status(201).json(newUser, newUserStats)
+//   } else {
+//     res.status(500).json({ error: 'Error creating user' })
+//   }
+// })
 
 auth.post('/register', async (req, res) => {
-  const newUser = await createNewUser(req.body)
+  try {
+    const newUser = await createNewUser(req.body);
+    
+    if (!newUser) {
+      return res.status(500).json({ error: 'Error creating user' });
+    }
+    
+    const newUserStats = await createUserStats(newUser.id);
 
-  if (newUser) {
-    res.status(201).json(newUser)
-  } else {
-    res.status(500).json({ error: 'Error creating user' })
+    res.status(201).json({
+      user: newUser,
+      stats: newUserStats
+    });
+  } catch (error) {
+    res.status(500).json({ error: 'Error creating user' });
   }
-})
+});
+
 
 auth.get('/user/:uid', authMiddleware, async (req, res) => {
   const { uid } = req.params
