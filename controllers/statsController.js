@@ -1,37 +1,43 @@
-const express = require('express')
-const stats = express.Router()
-const {getStatsByUserId, updateUserStats, createUserStats} = require("../queries/stats")
+const express = require("express");
+const stats = express.Router();
+const {
+  getStatsByUserId,
+  updateUserStats,
+  createUserStats,
+} = require("../queries/stats");
 
 // http://localhost:3003/api/stats/1
-stats.get('/:user_id', async (req,res) => {
-    const { user_id } = req.params
-    const userStats = await getStatsByUserId(user_id);
-    if(userStats[0]){
-        res.status(200).json(userStats);
-    } else {
-        res.status(500).json({ error: "Error fetching user stats"})
-    }
+stats.get("/:user_id", async (req, res) => {
+  const { user_id } = req.params;
+  const userStats = await getStatsByUserId(user_id);
+  if (userStats.id) {
+    res.status(200).json(userStats);
+  } else {
+    res.status(500).json({ error: "Error fetching user stats" });
+  }
 });
 
-
-// POST http://localhost:3003/api/stats
-// stats.post("/:user_id" ,async (req, res) => {
-//   const newUserStats = await createUserStats(user_id)
-//   if (newUserStats.id) {
-//     res.status(200).json(newUserStats);
-//   } else {
-//     res.status(404).json({ error: "User stats not created" });
-//   }
-// });
-
-// UPDATE http://localhost:3003/api/stats/1
+// http://localhost:3003/api/stats/1
 stats.put("/:user_id", async (req, res) => {
-    const { user_id } = req.params
-    const updatedUserStats = await updateUserStats({user_id, ...req.body});
-    if (updatedUserStats.id) {
-      res.status(200).json(updatedUserStats);
-    } else {
-      res.status(404).json({ error: "User stats not updated" });
-    }
+  const { user_id } = req.params;
+  const { id, xp, games_played, questions_correct, questions_wrong } = req.body;
+  const userStats = await getStatsByUserId(user_id);
+  if (!userStats) {
+    return res.status(404).json({ error: "User stats not found" });
+  }
+  const updatedUserStats = await updateUserStats({
+    user_id,
+    id,
+    xp: userStats.xp + xp,
+    games_played: userStats.games_played + games_played,
+    questions_correct: userStats.questions_correct + questions_correct,
+    questions_wrong: userStats.questions_wrong + questions_wrong,
   });
-module.exports = stats
+  if (updatedUserStats.id) {
+    res.status(200).json(updatedUserStats);
+  } else {
+    res.status(404).json({ error: "User stats not updated" });
+  }
+});
+
+module.exports = stats;
