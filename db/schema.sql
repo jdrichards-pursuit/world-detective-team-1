@@ -35,6 +35,7 @@ CREATE TABLE stats (
 CREATE TABLE countries (
     id SERIAL PRIMARY KEY,
     flag TEXT NOT NULL,
+    country_code VARCHAR(2),
     name VARCHAR(30)
 );
 
@@ -62,7 +63,7 @@ CREATE TABLE photos (
     id SERIAL PRIMARY KEY,
     photo_url TEXT,
     caption TEXT,
-    case_files_id INTEGER REFERENCES case_files(id)
+    case_files_id INTEGER REFERENCES case_files(id) ON DELETE CASCADE
 );
 
 CREATE TABLE questions_younger (
