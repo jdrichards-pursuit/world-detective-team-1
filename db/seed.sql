@@ -25,13 +25,13 @@ VALUES
 --     ('Chief Detective', 'https://cdn.imgbin.com/24/13/24/imgbin-police-officer-badge-special-police-police-academy-yellow-shield-ryy4BGDZBi2xePLGFgqHHAiP4.jpg', 'Chief Detective badge', 2800),
 --     ('Master Sleuth', 'https://cdn11.bigcommerce.com/s-yumff8kfnk/images/stencil/1280x1280/products/8454/14697/4623WCG-front__03109.1680643153.jpg?c=1', 'Master Sleuth badge', 5000);
 
-INSERT INTO countries(name, flag)
+INSERT INTO countries(name, flag, county_code)
 VALUES
     -- ('Bolivia', '🇧🇴'),
-    ('China', 'https://res.cloudinary.com/dhexjuuzd/image/upload/v1719945542/download_3_xdtw9a.png'),
-    ('Dominican Republic', 'https://res.cloudinary.com/dhexjuuzd/image/upload/v1719945529/download_1_ey5dxy.png'),
-    ('Portugal', 'https://res.cloudinary.com/dhexjuuzd/image/upload/v1719945536/download_2_wosmqd.png'),
-    ('Trinidad and Tobago', 'https://res.cloudinary.com/dhexjuuzd/image/upload/v1719945522/download_w0sugs.png');
+    ('China', 'https://res.cloudinary.com/dhexjuuzd/image/upload/v1719945542/download_3_xdtw9a.png', 'cn'),
+    ('Dominican Republic', 'https://res.cloudinary.com/dhexjuuzd/image/upload/v1719945529/download_1_ey5dxy.png', 'do'),
+    ('Portugal', 'https://res.cloudinary.com/dhexjuuzd/image/upload/v1719945536/download_2_wosmqd.png', 'pt'),
+    ('Trinidad and Tobago', 'https://res.cloudinary.com/dhexjuuzd/image/upload/v1719945522/download_w0sugs.png', 'tt');
 
 -- INSERT INTO user_badges(badge_id, user_id)
 -- VALUES
