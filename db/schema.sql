@@ -54,7 +54,15 @@ CREATE TABLE case_files (
     id SERIAL PRIMARY KEY,
     article_content TEXT,
     article_title TEXT,
+    publish_date DATE,
     countries_id INTEGER REFERENCES countries(id)
+);
+
+CREATE TABLE photos (
+    id SERIAL PRIMARY KEY,
+    photo_url TEXT,
+    caption TEXT,
+    case_files_id INTEGER REFERENCES case_files(id)
 );
 
 CREATE TABLE questions_younger (
