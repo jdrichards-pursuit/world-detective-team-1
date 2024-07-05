@@ -3,7 +3,6 @@ const stats = express.Router();
 const {
   getStatsByUserId,
   updateUserStats,
-  createUserStats,
 } = require("../queries/stats");
 
 // http://localhost:3003/api/stats/1
