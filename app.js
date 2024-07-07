@@ -5,8 +5,9 @@ const express = require("express");
 const authController = require("./controllers/authController");
 const countriesController = require("./controllers/countriesController");
 const youngerQuestionsController = require("./controllers/youngerQuestionsController");
-const questionsOlderController = require('./controllers/questionsOlderController')
+const questionsOlderController = require("./controllers/questionsOlderController");
 const statsController = require("./controllers/statsController");
+const caseFilesController = require("./controllers/caseFilesController");
 
 // CONFIGURATION
 const app = express();
@@ -24,8 +25,9 @@ app.use(express.json());
 app.use("/api/auth", authController);
 app.use("/api/countries", countriesController);
 app.use("/api/younger_questions", youngerQuestionsController);
-app.use('/api/older_questions/', questionsOlderController)
+app.use("/api/older_questions/", questionsOlderController);
 app.use("/api/stats", statsController);
+app.use("/api/case-files", caseFilesController);
 
 // ROUTES
 app.get("/", (_req, res) => {
