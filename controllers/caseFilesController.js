@@ -1,9 +1,11 @@
 const express = require("express");
+require("dotenv").config();
+
 const case_files = express.Router();
 const { getAllCountries } = require("../queries/countries");
 const { addCaseFile, getCaseFilesByCountry } = require("../queries/caseFiles");
-// const URL = import.meta.env.VITE_BASE_URL;
-const key = "1e784eb77662436699aa4f9da4586ef1";
+const URL = process.env.BASE_URL;
+const key = process.env.API_KEY;
 
 function getFormattedDate() {
   const currentDate = new Date();
@@ -37,7 +39,7 @@ case_files.get("/:countries_id/case_files", async (req, res) => {
 // http://localhost:3003/api/case-files/news-from-australia
 case_files.get("/news-from-australia", async (req, res) => {
   try {
-    const url = `https://api.worldnewsapi.com/top-news?source-country=au&language=en&date=${currentDate}`;
+    const url = `${URL}?source-country=au&language=en&date=${currentDate}`;
     const response = await fetch(url, {
       method: "GET",
       headers: {
@@ -53,8 +55,23 @@ case_files.get("/news-from-australia", async (req, res) => {
     const data = await response.json();
     const threeArticles = data.top_news[0].news.slice(0, 3);
     res.json(threeArticles);
-    // console.log("*******", threeArticles);
-    // case_files.post();
+    // case_files.post("/news-from-australia", async (req, res) => {
+    //   try {
+    //     for (let newFile of allNewCaseFiles) {
+    //       const addedCaseFile = await addCaseFile({
+    //         countries_id: newFile.countries_id,
+    //         article_id: newFile.id,
+    //         article_content: newFile.text,
+    //         article_title: newFile.title,
+    //         publish_date: newFile.publish_date,
+    //         // photo: newFile.image
+    //       });
+    //       res.status(200).json(addedCaseFile)
+    //     }
+    //   } catch (error) {
+    //     res.status(500).json({ error: "Could not POST case files." });
+    //   }
+    // });
   } catch (error) {
     console.error("Error fetching news:", error);
     res.status(500).json({ error: "Internal server error" });
