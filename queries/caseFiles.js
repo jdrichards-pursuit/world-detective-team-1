@@ -4,12 +4,14 @@ const db = require("../db/dbConfig");
 const addCaseFile = async (file) => {
   try {
     const newCaseFile = await db.one(
-      `INSERT INTO case_files(countries_id, article_content, article_title, publish_date) VALUES($1, $2, $3, $4) RETURNING *`,
+      `INSERT INTO case_files(countries_id, article_content, article_title, publish_date, article_id, photo_url) VALUES($1, $2, $3, $4, $5, $6) RETURNING *`,
       [
         file.countries_id,
         file.article_content,
         file.article_title,
         file.publish_date,
+        file.article_id,
+        file.photo_url
       ]
     );
     return newCaseFile;
