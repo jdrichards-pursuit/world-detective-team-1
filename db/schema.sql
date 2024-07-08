@@ -53,18 +53,21 @@ CREATE TABLE countries (
 
 CREATE TABLE case_files (
     id SERIAL PRIMARY KEY,
+    article_id INTEGER,
     article_content TEXT,
     article_title TEXT,
     publish_date DATE,
     countries_id INTEGER REFERENCES countries(id)
+    photo_url TEXT,
 );
 
-CREATE TABLE photos (
-    id SERIAL PRIMARY KEY,
-    photo_url TEXT,
-    caption TEXT,
-    case_files_id INTEGER REFERENCES case_files(id) ON DELETE CASCADE
-);
+-- CREATE TABLE photos (
+--     id SERIAL PRIMARY KEY,
+--     photo_url TEXT,
+--     article_id INTEGER,
+--     caption TEXT,
+--     case_files_id INTEGER REFERENCES case_files(id) ON DELETE CASCADE
+-- );
 
 CREATE TABLE questions_younger (
     id SERIAL PRIMARY KEY,

@@ -64,7 +64,7 @@ case_files.get("/news-from-australia", async (req, res) => {
     //         article_content: newFile.text,
     //         article_title: newFile.title,
     //         publish_date: newFile.publish_date,
-    //         // photo: newFile.image
+    //         // photo_url: newFile.image
     //       });
     //       res.status(200).json(addedCaseFile)
     //     }
@@ -77,6 +77,7 @@ case_files.get("/news-from-australia", async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 });
+
 
 // http://localhost:3003/api/case_files
 // case_files.post("/", async (req, res) => {
