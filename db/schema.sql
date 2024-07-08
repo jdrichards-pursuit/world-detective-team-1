@@ -56,9 +56,9 @@ CREATE TABLE case_files (
     article_id INTEGER,
     article_content TEXT,
     article_title TEXT,
-    publish_date DATE,
-    countries_id INTEGER REFERENCES countries(id)
-    photo_url TEXT,
+    publish_date VARCHAR(50),
+    countries_id INTEGER REFERENCES countries(id),
+    photo_url TEXT
 );
 
 -- CREATE TABLE photos (

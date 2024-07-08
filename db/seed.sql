@@ -25,7 +25,7 @@ VALUES
 --     ('Chief Detective', 'https://cdn.imgbin.com/24/13/24/imgbin-police-officer-badge-special-police-police-academy-yellow-shield-ryy4BGDZBi2xePLGFgqHHAiP4.jpg', 'Chief Detective badge', 2800),
 --     ('Master Sleuth', 'https://cdn11.bigcommerce.com/s-yumff8kfnk/images/stencil/1280x1280/products/8454/14697/4623WCG-front__03109.1680643153.jpg?c=1', 'Master Sleuth badge', 5000);
 
-INSERT INTO countries(name, flag, county_code)
+INSERT INTO countries(name, flag, country_code)
 VALUES
     -- ('Bolivia', '🇧🇴'),
     ('China', 'https://res.cloudinary.com/dhexjuuzd/image/upload/v1719945542/download_3_xdtw9a.png', 'cn'),

@@ -27,7 +27,7 @@ app.use("/api/countries", countriesController);
 app.use("/api/younger_questions", youngerQuestionsController);
 app.use("/api/older_questions/", questionsOlderController);
 app.use("/api/stats", statsController);
-app.use("/api/case-files", caseFilesController);
+app.use("/api/case_files", caseFilesController);
 
 // ROUTES
 app.get("/", (_req, res) => {
