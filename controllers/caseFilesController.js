@@ -54,21 +54,25 @@ case_files.get("/news-from-australia", async (req, res) => {
 
     const data = await response.json();
     const threeArticles = data.top_news[0].news.slice(0, 3);
-    res.json(threeArticles);
+    console.log("Articles", threeArticles);
+    // res.json(threeArticles);
     // case_files.post("/news-from-australia", async (req, res) => {
     //   try {
-    //     for (let newFile of allNewCaseFiles) {
-    //       const addedCaseFile = await addCaseFile({
-    //         countries_id: newFile.countries_id,
-    //         article_id: newFile.id,
-    //         article_content: newFile.text,
-    //         article_title: newFile.title,
-    //         publish_date: newFile.publish_date,
-    //         // photo_url: newFile.image
-    //       });
-    //       res.status(200).json(addedCaseFile)
-    //     }
-    //   } catch (error) {
+    for (let newFile of threeArticles) {
+      //   console.log("New file", newFile);
+      const addedCaseFile = await addCaseFile({
+        countries_id: newFile.countries_id,
+        article_id: newFile.id,
+        article_content: newFile.text,
+        article_title: newFile.title,
+        publish_date: newFile.publish_date,
+        photo_url: newFile.image,
+      });
+      console.log("Added file", addedCaseFile);
+    }
+    res.status(200).json(threeArticles);
+    //   }
+    //   catch (error) {
     //     res.status(500).json({ error: "Could not POST case files." });
     //   }
     // });
@@ -77,7 +81,6 @@ case_files.get("/news-from-australia", async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 });
-
 
 // http://localhost:3003/api/case_files
 // case_files.post("/", async (req, res) => {
