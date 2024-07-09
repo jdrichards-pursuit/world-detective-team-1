@@ -3,7 +3,14 @@ require("dotenv").config();
 
 const case_files = express.Router();
 const { getAllCountries } = require("../queries/countries");
-const { addCaseFile, getCaseFilesByCountry } = require("../queries/caseFiles");
+const {
+  addCaseFile,
+  getCaseFilesByCountry,
+  getLatestCaseFile,
+  deleteOldArticles,
+  getAllNewCaseFiles,
+} = require("../queries/caseFiles");
+const checkDate = require("../helpers/checkDate");
 const URL = process.env.BASE_URL;
 const key = process.env.API_KEY;
 
@@ -24,10 +31,78 @@ function getFormattedDate() {
 
 const currentDate = getFormattedDate();
 
-//INDEX CASE FILES http://localhost:3003/api/countries/1/case_files
-case_files.get("/:countries_id/case_files", async (req, res) => {
+// http://localhost:3003/api/case-files/news-from-australia
+case_files.get("/news-from-australia", async (req, res) => {
+  try {
+    const latestFile = await getLatestCaseFile();
+    console.log("Latest file", latestFile);
+    const daysSinceLastArticlePost = checkDate(latestFile.publish_date);
+    console.log("Days since last post", daysSinceLastArticlePost);
+    if (daysSinceLastArticlePost > 1) {
+      const deletedArticles = await deleteOldArticles();
+      console.log("Deleted Articles", deletedArticles);
+    }
+    const caseFiles = await getLatestCaseFile();
+    if (!caseFiles[0]) {
+      const allCountries = await getAllCountries();
+      if (!allCountries[0]) {
+        res.status(500).json({ error: "Error fetching countries" });
+      }
+      const addArticles = allCountries.map(async (country) => {
+        const url = `${URL}?source-country=${country.country_code}&language=en&date=${currentDate}`;
+        const response = await fetch(url, {
+          method: "GET",
+          headers: {
+            "x-api-key": key,
+          },
+        });
+        console.log("Response", response);
+        if (!response.ok) {
+          //   console.error(response.status);
+          throw new Error("Failed to fetch news");
+        }
+
+        const data = await response.json();
+        console.log("Data", data);
+        const threeArticles = data.top_news[0].news.slice(0, 3);
+        console.log("Articles", threeArticles);
+        // res.json(threeArticles);
+        // case_files.post("/news-from-australia", async (req, res) => {
+        //   try {
+        for (let newFile of threeArticles) {
+          //   console.log("New file", newFile);
+          const addedCaseFile = await addCaseFile({
+            countries_id: country.id,
+            article_id: newFile.id,
+            article_content: newFile.text,
+            article_title: newFile.title,
+            publish_date: newFile.publish_date,
+            photo_url: newFile.image,
+          });
+          console.log("Added file", addedCaseFile);
+        }
+        // res.status(200).json(threeArticles);
+      });
+      //   const allNewCaseFiles = await getAllNewCaseFiles();
+      //   console.log("All new case files", allNewCaseFiles);
+      //   res.status(200).json(allNewCaseFiles);
+    }
+    //   }
+    //   catch (error) {
+    //     res.status(500).json({ error: "Could not POST case files." });
+    //   }
+    res.status(200).json({ message: "Success adding articles!" });
+  } catch (error) {
+    console.error("Error fetching news:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+//INDEX CASE FILES http://localhost:3003/api/case_files/1
+case_files.get("/:countries_id", async (req, res) => {
   const { countries_id } = req.params;
   const allCaseFilesByCountry = await getCaseFilesByCountry(countries_id);
+  console.log("Case files by country", allCaseFilesByCountry);
 
   if (allCaseFilesByCountry[0]) {
     res.status(200).json(allCaseFilesByCountry);
@@ -35,108 +110,5 @@ case_files.get("/:countries_id/case_files", async (req, res) => {
     res.status(500).json({ error: "Error fetching case files" });
   }
 });
-
-// http://localhost:3003/api/case-files/news-from-australia
-case_files.get("/news-from-australia", async (req, res) => {
-  try {
-    const url = `${URL}?source-country=au&language=en&date=${currentDate}`;
-    const response = await fetch(url, {
-      method: "GET",
-      headers: {
-        "x-api-key": key,
-      },
-    });
-
-    if (!response.ok) {
-      console.error(response.status);
-      throw new Error("Failed to fetch news");
-    }
-
-    const data = await response.json();
-    const threeArticles = data.top_news[0].news.slice(0, 3);
-    console.log("Articles", threeArticles);
-    // res.json(threeArticles);
-    // case_files.post("/news-from-australia", async (req, res) => {
-    //   try {
-    for (let newFile of threeArticles) {
-      //   console.log("New file", newFile);
-      const addedCaseFile = await addCaseFile({
-        countries_id: newFile.countries_id,
-        article_id: newFile.id,
-        article_content: newFile.text,
-        article_title: newFile.title,
-        publish_date: newFile.publish_date,
-        photo_url: newFile.image,
-      });
-      console.log("Added file", addedCaseFile);
-    }
-    res.status(200).json(threeArticles);
-    //   }
-    //   catch (error) {
-    //     res.status(500).json({ error: "Could not POST case files." });
-    //   }
-    // });
-  } catch (error) {
-    console.error("Error fetching news:", error);
-    res.status(500).json({ error: "Internal server error" });
-  }
-});
-
-// http://localhost:3003/api/case_files
-// case_files.post("/", async (req, res) => {
-//   const allCountries = await getAllCountries();
-//   if (!allCountries[0]) {
-//     res.status(500).json({ error: "Error fetching countries" });
-//   }
-//   const allNewCaseFiles = [];
-//   for (let country of allCountries) {
-//     const { id, code, name } = country;
-//     // fetch
-//     // `${URL}?source-country=${code}&date=2024-05-29`
-//     const response = await fetch(
-//       `${URL}?source-country=${code}&date=${currentDate}`,
-//       {
-//         method: "GET",
-//         headers: {
-//           "x-api-key": key,
-//         },
-//       }
-//     );
-//     console.log("response", response);
-//     if (!response[0]) {
-//       res
-//         .status(500)
-//         .json({ error: "Error fetching articles by country code" });
-//     }
-//     const articlesWithCountryId = response.top_news[0].news
-//       .slice(0, 3)
-//       .map((article) => ({
-//         ...article,
-//         countries_id: id,
-//       }));
-//     console.log("articles with id", articlesWithCountryId);
-//     const newCaseFiles = await articlesWithCountryId.json();
-//     if (newCaseFiles[0]) {
-//       allNewCaseFiles.concat(newCaseFiles);
-//       console.log("All new case files", allNewCaseFiles);
-//     } else {
-//       res
-//         .status(500)
-//         .json({ error: "No articles found for country code and date" });
-//     }
-//   }
-
-//   for (let newFile of allNewCaseFiles) {
-//     const addedCaseFile = await addCaseFile({
-//       countries_id: newFile.countries_id,
-//       article_content: newFile.text,
-//       article_title: newFile.title,
-//       publish_date: newFile.publish_date,
-//     });
-//     if (!addedCaseFile.id) {
-//       res.status(500).json({ error: "Error fetching user stats" });
-//     }
-//   }
-// });
 
 module.exports = case_files;

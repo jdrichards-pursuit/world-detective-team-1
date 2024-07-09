@@ -11,7 +11,7 @@ const addCaseFile = async (file) => {
         file.article_title,
         file.publish_date,
         file.article_id,
-        file.photo_url
+        file.photo_url,
       ]
     );
     return newCaseFile;
@@ -32,7 +32,42 @@ const getCaseFilesByCountry = async (countries_id) => {
   }
 };
 
+//GET case files ater posting to case fiels table
+const getAllNewCaseFiles = async () => {
+  try {
+    const allCaseFiles = await db.any("SELECT * FROM case_files");
+    return allCaseFiles;
+  } catch (error) {
+    return error;
+  }
+};
+
+//GET publish date for latest article in the case_files table
+const getLatestCaseFile = async () => {
+  try {
+    const latestCaseFile = await db.one(
+      "SELECT publish_date FROM case_files ORDER BY publish_date DESC LIMIT 1"
+    );
+    return latestCaseFile;
+  } catch (error) {
+    return error;
+  }
+};
+
+// DELETE all articles that are older than 1 day
+const deleteOldArticles = async () => {
+  try {
+    const deletedArticles = await db.any("DELETE FROM case_files");
+    return deletedArticles;
+  } catch (error) {
+    return error;
+  }
+};
+
 module.exports = {
   addCaseFile,
   getCaseFilesByCountry,
+  getLatestCaseFile,
+  deleteOldArticles,
+  getAllNewCaseFiles,
 };

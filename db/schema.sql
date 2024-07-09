@@ -53,7 +53,7 @@ CREATE TABLE countries (
 
 CREATE TABLE case_files (
     id SERIAL PRIMARY KEY,
-    article_id INTEGER,
+    article_id INTEGER UNIQUE,
     article_content TEXT,
     article_title TEXT,
     publish_date VARCHAR(50),
@@ -76,7 +76,7 @@ CREATE TABLE questions_younger (
     incorrect_answer1 VARCHAR(100),
     incorrect_answer2 VARCHAR(100),
     incorrect_answer3 VARCHAR(100),
-    case_files_id INTEGER REFERENCES case_files(id)
+    case_files_article_id INTEGER REFERENCES case_files(article_id) ON DELETE CASCADE
 );
 
 CREATE TABLE questions_older (
@@ -86,5 +86,5 @@ CREATE TABLE questions_older (
     incorrect_answer1 VARCHAR(100),
     incorrect_answer2 VARCHAR(100),
     incorrect_answer3 VARCHAR(100),
-    case_files_id INTEGER REFERENCES case_files(id)
+    case_files_article_id INTEGER REFERENCES case_files(article_id) ON DELETE CASCADE
 );
