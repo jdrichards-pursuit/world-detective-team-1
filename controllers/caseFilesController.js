@@ -6,6 +6,7 @@ const { getAllCountries } = require("../queries/countries");
 const {
   getCaseFilesByCountry,
   getLatestCaseFile,
+  getAllNewCaseFiles
 } = require("../queries/caseFiles");
 const deleteOldCaseFiles = require("../helpers/deleteOldCaseFiles");
 const fetchArticles = require("../helpers/fetchArticles");
@@ -20,7 +21,10 @@ case_files.get("/news-from-australia", async (req, res) => {
       if (!allCountries[0]) {
         res.status(500).json({ error: "Error fetching countries" });
       }
-      fetchArticles(allCountries)
+      const checkCaseFiles = await getAllNewCaseFiles()
+      if(!checkCaseFiles[0]){
+        fetchArticles(allCountries)
+      }
     }
     res.status(200).json({ message: "Success adding articles!" });
   } catch (error) {

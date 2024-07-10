@@ -40,7 +40,7 @@ async function addArticles(allCountries){
         const data = await response.json();
         console.log("Data", data);
         const threeArticles = data.top_news[0].news.slice(0, 3);
-        console.log("Articles", threeArticles);
+        // console.log("Articles", threeArticles);
         // res.json(threeArticles);
         // case_files.post("/news-from-australia", async (req, res) => {
         //   try {
