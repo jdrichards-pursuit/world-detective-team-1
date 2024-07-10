@@ -8,11 +8,12 @@ const {
   getCaseFilesByCountry,
   getLatestCaseFile,
   deleteOldArticles,
-  getAllNewCaseFiles,
+  //   getAllNewCaseFiles,
 } = require("../queries/caseFiles");
+const { addQuestionsAndAnswers } = require("../queries/ai");
 const checkDate = require("../helpers/checkDate");
 const URL = process.env.BASE_URL;
-const key = process.env.API_KEY;
+const key = process.env.NEWS_API_KEY;
 
 function getFormattedDate() {
   const currentDate = new Date();
