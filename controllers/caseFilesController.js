@@ -19,7 +19,7 @@ case_files.get("/news-from-australia", async (req, res) => {
     const checkCaseFiles = await getAllNewCaseFiles()
     if (!checkCaseFiles[0]) {
       const allCountries = await getAllCountries();
-      if (!allCountries[0].id) {
+      if (!allCountries[0]) {
         res.status(500).json({ error: "Error fetching countries" });
       }
       await addArticles(allCountries)
