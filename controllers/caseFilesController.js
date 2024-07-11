@@ -9,25 +9,24 @@ const {
   getAllNewCaseFiles
 } = require("../queries/caseFiles");
 const deleteOldCaseFiles = require("../helpers/deleteOldCaseFiles");
-const fetchArticles = require("../helpers/fetchArticles");
+const addArticles = require("../helpers/addArticles");
 
 
 // http://localhost:3003/api/case_files/news-from-australia
 case_files.get("/news-from-australia", async (req, res) => {
   try {
-    deleteOldCaseFiles()
-    const caseFiles = await getLatestCaseFile();
-    if (!caseFiles[0]) {
+    await deleteOldCaseFiles()
+    const checkCaseFiles = await getAllNewCaseFiles()
+    if (!checkCaseFiles[0]) {
       const allCountries = await getAllCountries();
       if (!allCountries[0]) {
         res.status(500).json({ error: "Error fetching countries" });
       }
-      const checkCaseFiles = await getAllNewCaseFiles()
-      if(!checkCaseFiles[0]){
-        fetchArticles(allCountries)
-      }
+      await addArticles(allCountries)
+      res.status(200).json({ message: "Success adding articles!" })
+    } else {
+      res.status(200).json({ message: "Articles are up to date" })
     }
-    res.status(200).json({ message: "Success adding articles!" });
   } catch (error) {
     console.error("Error fetching news:", error);
     res.status(500).json({ error: "Internal server error" });

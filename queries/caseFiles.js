@@ -32,7 +32,7 @@ const getCaseFilesByCountry = async (countries_id) => {
   }
 };
 
-//GET case files ater posting to case fiels table
+//GET case files ater posting to case files table
 const getAllNewCaseFiles = async () => {
   try {
     const allCaseFiles = await db.any("SELECT * FROM case_files");

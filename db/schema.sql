@@ -36,7 +36,8 @@ CREATE TABLE countries (
     id SERIAL PRIMARY KEY,
     flag TEXT NOT NULL,
     country_code VARCHAR(2),
-    name VARCHAR(30)
+    name VARCHAR(30),
+    language_code VARCHAR(2)
 );
 
 -- CREATE TABLE user_badges (
@@ -57,8 +58,8 @@ CREATE TABLE case_files (
     article_content TEXT,
     article_title TEXT,
     publish_date VARCHAR(50),
-    summary_young TEXT,
-    summary_old TEXT,
+    summary_young TEXT DEFAULT NULL,
+    summary_old TEXT DEFAULT NULL,
     countries_id INTEGER REFERENCES countries(id),
     photo_url TEXT
 );

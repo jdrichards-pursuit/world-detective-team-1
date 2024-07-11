@@ -1,8 +1,9 @@
 
 const { addCaseFile } = require("../queries/caseFiles");
+// const translateText = require("../helpers/translateText")
 
 const URL = process.env.BASE_URL;
-const key = process.env.API_KEY;
+const key = process.env.NEWS_API_KEY;
 
 function getFormattedDate() {
     const currentDate = new Date();
@@ -23,8 +24,10 @@ const currentDate = getFormattedDate();
 
 async function addArticles(allCountries){
 
+    const addedArticles = []
+
     allCountries.map(async (country) => {
-        const url = `${URL}?source-country=${country.country_code}&language=en&date=${currentDate}`;
+        const url = `${URL}?source-country=${country.country_code}&language=${country.language_code}&date=${currentDate}`;
         const response = await fetch(url, {
           method: "GET",
           headers: {
@@ -40,12 +43,11 @@ async function addArticles(allCountries){
         const data = await response.json();
         console.log("Data", data);
         const threeArticles = data.top_news[0].news.slice(0, 3);
-        // console.log("Articles", threeArticles);
-        // res.json(threeArticles);
-        // case_files.post("/news-from-australia", async (req, res) => {
-        //   try {
+
         for (let newFile of threeArticles) {
-          //   console.log("New file", newFile);
+            //   console.log("New file", newFile);
+            // const textInSpanish = await translateText("Hello World", "es")
+        //  *** if language_code !== en, then run translate helper function ***
           const addedCaseFile = await addCaseFile({
             countries_id: country.id,
             article_id: newFile.id,
@@ -55,8 +57,10 @@ async function addArticles(allCountries){
             photo_url: newFile.image,
           });
           console.log("Added file", addedCaseFile);
+          addedArticles.push(addedCaseFile)
         }
       });
+      return addedArticles
 }
 
 module.exports = addArticles;
