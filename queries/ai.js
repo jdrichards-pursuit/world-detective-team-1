@@ -1,30 +1,52 @@
 const db = require("../db/dbConfig");
 // require("dotenv").config();
+// const Anthropic = require("@anthropic-ai/sdk");
+// const anthropic = new Anthropic();
+// const systemPromptForArticleSummary = require("../helpers/aiData");
+// // const aiKey = process.env.ANTHROPIC_API_KEY;
+// const articleSummary = anthropic.messages.create({
+//   model: "claude-3-5-sonnet-20240620",
+//   max_tokens: 2000,
+//   temperature: 0,
+//   system: systemPromptForArticleSummary,
+//   messages: [
+//     {
+//       role: "user",
+//       content: [
+//         {
+//           type: "text",
+//           text: case_files.article_content,
+//         },
+//       ],
+//     },
+//   ],
+// });
 
-import Anthropic from "@anthropic-ai/sdk";
+//PUT to add summary for younger to case files table
+const updateYoungerSummary = async (youngerSummary, article_id) => {
+  try {
+    const addYoungerSummary = await db.any(
+      "UPDATE case_files SET summary_young=$1 WHERE article_id=$2 RETURNING *",
+      [youngerSummary, article_id]
+    );
+    return addYoungerSummary;
+  } catch (error) {
+    return error;
+  }
+};
 
-const anthropic = new Anthropic();
-const systemPromptForArticleSummary = require("../helpers/aiData");
-// const aiKey = process.env.ANTHROPIC_API_KEY;
-
-const msg = await anthropic.messages.create({
-  model: "claude-3-5-sonnet-20240620",
-  max_tokens: 2000,
-  temperature: 0,
-  system: systemPromptForArticleSummary,
-  messages: [
-    {
-      role: "user",
-      content: [
-        {
-          type: "text",
-          text: "Why is the ocean salty?",
-        },
-      ],
-    },
-  ],
-});
-console.log(msg);
+//PUT to add summary for older to case files table
+const updateOlderSummary = async (olderSummary, article_id) => {
+  try {
+    const addOlderSummary = await db.any(
+      "UPDATE case_files SET summary_old=$1 WHERE article_id=$2 RETURNING *",
+      [olderSummary, article_id]
+    );
+    return addOlderSummary;
+  } catch (error) {
+    return error;
+  }
+};
 
 const addQuestionsAndAnswers = async (
   question,
@@ -62,5 +84,8 @@ const addQuestionsAndAnswers = async (
     return error;
   }
 };
-
-module.exports = { addQuestionsAndAnswers };
+module.exports = {
+  addQuestionsAndAnswers,
+  updateYoungerSummary,
+  updateOlderSummary,
+};
