@@ -1,5 +1,6 @@
 const { addCaseFile } = require("../queries/caseFiles");
 // const translateText = require("../helpers/translateText")
+const axios = require("axios");
 
 const URL = process.env.BASE_URL;
 const key = process.env.NEWS_API_KEY;
@@ -22,45 +23,40 @@ function getFormattedDate() {
 const currentDate = getFormattedDate();
 
 async function addArticles(allCountries) {
-  const addedArticles = [];
-
-  return allCountries.map(async (country) => {
-    const url = `${URL}?source-country=${country.country_code}&language=${country.language_code}&date=${currentDate}`;
-    const response = await fetch(url, {
-      method: "GET",
-      headers: {
-        "x-api-key": key,
-      },
-    });
-    console.log("Response", response);
-    if (!response.ok) {
-      //   console.error(response.status);
-      // throw new Error("Failed to fetch news");
-    }
-
-    const data = await response.json();
-    console.log("Data", data);
-    const threeArticles = data.top_news[0].news.slice(0, 3);
-
-    for (let newFile of threeArticles) {
-      //   console.log("New file", newFile);
-      // const textInSpanish = await translateText("Hello World", "es")
-      //  *** if language_code !== en, then run translate helper function ***
-      const addedCaseFile = await addCaseFile({
-        countries_id: country.id,
-        article_id: newFile.id,
-        article_content: newFile.text,
-        article_title: newFile.title,
-        publish_date: newFile.publish_date,
-        photo_url: newFile.image,
+  console.log("running addArticles function");
+  const addedArticles = await Promise.all(
+    allCountries.map(async (country) => {
+      const url = `${URL}?source-country=${country.country_code}&language=${country.language_code}&date=${currentDate}`;
+      const response = await axios.get(url, {
+        headers: {
+          "x-api-key": key,
+        },
       });
-      console.log("Added file", addedCaseFile);
-      // setTimeout(addCaseFile, 5000);
-      addedArticles.push(addedCaseFile.article_content);
-    }
-    console.log("**********", addedArticles);
-    return addedArticles;
-  });
+
+      if (response.status !== 200) {
+        throw new Error("Failed to fetch news");
+      }
+
+      const data = response.data;
+      const threeArticles = data.top_news[0].news.slice(0, 3);
+      const countryArticles = [];
+
+      for (let newFile of threeArticles) {
+        const addedCaseFile = await addCaseFile({
+          countries_id: country.id,
+          article_id: newFile.id,
+          article_content: newFile.text,
+          article_title: newFile.title,
+          publish_date: newFile.publish_date,
+          photo_url: newFile.image,
+        });
+        countryArticles.push(addedCaseFile);
+      }
+      return countryArticles;
+    })
+  );
+
+  return addedArticles.flat();
 }
 
 module.exports = addArticles;

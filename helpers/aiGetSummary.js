@@ -24,6 +24,7 @@ const getSummaries = async (content, article_id) => {
       },
     ],
   });
+
   // console.log("Article summary", articleSummary);
   const parsedYoung = JSON.parse(articleSummary.content[0].text).youngerSummary;
   const parsedOld = JSON.parse(articleSummary.content[0].text).olderSummary;
@@ -33,17 +34,17 @@ const getSummaries = async (content, article_id) => {
     article_id
   );
   const updatedOlderSummary = await updateOlderSummary(parsedOld, article_id);
-  console.log("Younger", updatedYoungerSummary);
-  console.log("Older", updatedOlderSummary);
-  // if (updatedYoungerSummary[0]) {
-  //   res
-  //     .status(200)
-  //     .json({ message: "Success in updating summary in case files" });
-  // } else {
-  //   res
-  //     .status(500)
-  //     .json({ message: "Server error, could not update summaries" });
-  // }
+  // console.log("Younger", updatedYoungerSummary);
+  // console.log("Older", updatedOlderSummary);
+  if (updatedYoungerSummary[0]) {
+    res
+      .status(200)
+      .json({ message: "Success in updating summary in case files" });
+  } else {
+    res
+      .status(500)
+      .json({ message: "Server error, could not update summaries" });
+  }
   // console.log("Updated Summary", updatedSummary);
   // }
 };
