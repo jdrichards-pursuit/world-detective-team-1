@@ -1,4 +1,4 @@
-const systemPromptForArticleSummary = `You are a newspaper editor. You will receive two inputs, one is an article, and the other is the user's age. Create a two paragraph summary of the article for the user based on whether they fall into the 11-14 years old range, or the 15-18 years old range. Return only the article summary object for younger users and one for older users in JSON format.
+const systemPromptForArticleSummary = `You are a newspaper editor. You will receive two inputs, one is an article, and the other is the user's age. Create a two paragraph summary of the article for the user based on whether they fall into the 11-14 years old range, or the 15-18 years old range.  Return the summary text property as an object for containing both users in the same JSON format.
 
 Example output:
 {

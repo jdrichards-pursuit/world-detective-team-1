@@ -14,8 +14,9 @@ const addSummaries = async (addedArticles) => {
         article.article_content,
         article.article_id
       );
+      console.log("summarized article Result", result);
       summarizedArticles.push(result);
-      await delay(1000); // Delay of 1 second between requests
+      await delay(250);
     }
 
     console.log("Summarized articles", summarizedArticles);

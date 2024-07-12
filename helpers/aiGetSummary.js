@@ -6,7 +6,14 @@ const {
 } = require("../helpers/aiData");
 const { updateYoungerSummary, updateOlderSummary } = require("../queries/ai");
 
+const extractSummary = (str, key) => {
+  const regex = new RegExp(`"${key}":\\s*"([^"]*)"`, "s");
+  const match = str.match(regex);
+  return match ? match[1] : null;
+};
+
 const getSummaries = async (content, article_id) => {
+  console.log("getSummariesFunction");
   const articleSummary = await anthropic.messages.create({
     model: "claude-3-5-sonnet-20240620",
     max_tokens: 2000,
@@ -25,21 +32,30 @@ const getSummaries = async (content, article_id) => {
     ],
   });
 
-  // console.log("Article summary", articleSummary);
-  const parsedYoung = JSON.parse(articleSummary.content[0].text).youngerSummary;
-  const parsedOld = JSON.parse(articleSummary.content[0].text).olderSummary;
-  // console.log("parsed", parsed);
+  const parsedYoung = extractSummary(
+    articleSummary.content[0].text,
+    "youngerSummary"
+  );
+  const parsedOld = extractSummary(
+    articleSummary.content[0].text,
+    "olderSummary"
+  );
+
+  console.log("parsedYoung:", parsedYoung, "TYPE", typeof parsedYoung);
+  console.log("parsedOld:", parsedOld, "TYPE", typeof parsedOld);
+
   const updatedYoungerSummary = await updateYoungerSummary(
     parsedYoung,
     article_id
   );
   const updatedOlderSummary = await updateOlderSummary(parsedOld, article_id);
-  // console.log("Younger", updatedYoungerSummary);
-  // console.log("Older", updatedOlderSummary);
-  if (updatedYoungerSummary[0]) {
-    res
-      .status(200)
-      .json({ message: "Success in updating summary in case files" });
+  console.log("Younger", updatedYoungerSummary);
+  console.log("Older", updatedOlderSummary);
+
+  if (updatedYoungerSummary && updatedOlderSummary) {
+    return { updatedYoungerSummary, updatedOlderSummary };
+    // console.log("older", updateOlderSummary, "younger", updateYoungerSummary);
+    // // return { updatedYoungerSummary, updatedOlderSummary };
   } else {
     res
       .status(500)

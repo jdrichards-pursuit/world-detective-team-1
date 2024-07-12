@@ -31,10 +31,10 @@ case_files.get("/news-from-australia", async (_req, res) => {
       if (addedArticles.length > 0) {
         const summarizedArticles = await addSummaries(addedArticles);
         console.log("Success adding articles!", summarizedArticles);
+        return res
+          .status(200)
+          .json({ message: "Success adding articles!", summarizedArticles });
       }
-      return res
-        .status(200)
-        .json({ message: "Success adding articles!", summarizedArticles });
     }
   } catch (error) {
     console.error("Error fetching news:", error);
