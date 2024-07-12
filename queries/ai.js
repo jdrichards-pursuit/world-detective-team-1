@@ -25,8 +25,8 @@ const db = require("../db/dbConfig");
 //PUT to add summary for younger to case files table
 const updateYoungerSummary = async (youngerSummary, article_id) => {
   try {
-    const addYoungerSummary = await db.any(
-      "UPDATE case_files SET summary_young=$1 WHERE article_id=$2 RETURNING *",
+    const addYoungerSummary = await db.one(
+      "UPDATE case_files SET summary_young=$1 WHERE article_id=$2 RETURNING summary_young",
       [youngerSummary, article_id]
     );
     return addYoungerSummary;
@@ -38,8 +38,8 @@ const updateYoungerSummary = async (youngerSummary, article_id) => {
 //PUT to add summary for older to case files table
 const updateOlderSummary = async (olderSummary, article_id) => {
   try {
-    const addOlderSummary = await db.any(
-      "UPDATE case_files SET summary_old=$1 WHERE article_id=$2 RETURNING *",
+    const addOlderSummary = await db.one(
+      "UPDATE case_files SET summary_old=$1 WHERE article_id=$2 RETURNING summary_old",
       [olderSummary, article_id]
     );
     return addOlderSummary;

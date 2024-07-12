@@ -2,11 +2,11 @@ const Anthropic = require("@anthropic-ai/sdk");
 const anthropic = new Anthropic();
 const {
   systemPromptForArticleSummary,
-  hardCodedArticle,
+  // hardCodedArticle,
 } = require("../helpers/aiData");
 const { updateYoungerSummary, updateOlderSummary } = require("../queries/ai");
 
-const getSummary = async () => {
+const getSummaries = async (content, article_id) => {
   const articleSummary = await anthropic.messages.create({
     model: "claude-3-5-sonnet-20240620",
     max_tokens: 2000,
@@ -18,7 +18,7 @@ const getSummary = async () => {
         content: [
           {
             type: "text",
-            text: hardCodedArticle.text,
+            text: content,
           },
         ],
       },
@@ -30,12 +30,9 @@ const getSummary = async () => {
   // console.log("parsed", parsed);
   const updatedYoungerSummary = await updateYoungerSummary(
     parsedYoung,
-    hardCodedArticle.case_files_article_id
+    article_id
   );
-  const updatedOlderSummary = await updateOlderSummary(
-    parsedOld,
-    hardCodedArticle.case_files_article_id
-  );
+  const updatedOlderSummary = await updateOlderSummary(parsedOld, article_id);
   console.log("Younger", updatedYoungerSummary);
   console.log("Older", updatedOlderSummary);
   // if (updatedYoungerSummary[0]) {
@@ -51,4 +48,4 @@ const getSummary = async () => {
   // }
 };
 
-module.exports = { getSummary };
+module.exports = { getSummaries };
